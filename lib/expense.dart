@@ -15,7 +15,7 @@ class _ExpensesState extends State<Expenses> {
         title: const Text("Expenses Tracker"),
         leading: null,
       ),
-      body: Center(child: Text("hello world")),
+      body: const Center(child: Text("hello world")),
     );
   }
 }
