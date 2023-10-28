@@ -1,4 +1,5 @@
 import 'package:expenses/widget/expenses_list/expense_list.dart';
+import 'package:expenses/widget/new_expense.dart';
 import 'package:flutter/material.dart';
 
 import 'model/expense.dart';
@@ -11,20 +12,42 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<Expense> _registeredExpenses=[
-    Expense(title: 'Flutter', amount: 30, date: DateTime.now(), category: Category.food),
-    Expense(title: 'Flutter', amount: 30, date: DateTime.now(), category: Category.leisure),
-    Expense(title: 'Flutter', amount: 30, date: DateTime.now(), category: Category.work),
-    Expense(title: 'Flutter', amount: 30, date: DateTime.now(), category: Category.travel),
+  final List<Expense> _registeredExpenses = [
+    Expense(
+        title: 'Flutter',
+        amount: 30,
+        date: DateTime.now(),
+        category: Category.food),
+    Expense(
+        title: 'Flutter',
+        amount: 30,
+        date: DateTime.now(),
+        category: Category.leisure),
+    Expense(
+        title: 'Flutter',
+        amount: 30,
+        date: DateTime.now(),
+        category: Category.work),
+    Expense(
+        title: 'Flutter',
+        amount: 30,
+        date: DateTime.now(),
+        category: Category.travel),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [IconButton(onPressed: () {
+          showModalBottomSheet(context: context, builder:(ctx)=>NewExpense(), );
+        }, icon: const Icon(Icons.add))],
         title: const Text("Expenses Tracker"),
         leading: null,
       ),
-      body: ExpenseList(expenses: _registeredExpenses,),
+      body: ExpenseList(
+        expenses: _registeredExpenses,
+      ),
     );
   }
 }

@@ -22,6 +22,15 @@ class ExpenseList extends StatelessWidget {
                   Row(
                     children: [
                       Text(expenses[index].amount.toString()),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Icon(categoryIcons[expenses[index].category]),
+                          const SizedBox(width: 8),
+                          Text(expenses[index].date.toString()),
+                        ],
+                      )
+
 
                     ],
                   )
