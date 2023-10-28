@@ -39,9 +39,19 @@ class _ExpensesState extends State<Expenses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [IconButton(onPressed: () {
-          showModalBottomSheet(context: context, builder:(ctx)=>NewExpense(), );
-        }, icon: const Icon(Icons.add))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (ctx) => const NewExpense(),
+                  showDragHandle: true,
+                  useSafeArea: true,
+                  clipBehavior: Clip.hardEdge,
+                );
+              },
+              icon: const Icon(Icons.add))
+        ],
         title: const Text("Expenses Tracker"),
         leading: null,
       ),
