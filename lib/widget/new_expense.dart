@@ -1,3 +1,4 @@
+import 'package:expenses/model/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpense extends StatefulWidget {
@@ -10,6 +11,20 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titlecontroller = TextEditingController();
   final _amountcontroller = TextEditingController();
+  DateTime? _selectedDate;
+
+  void _presentDatePicker() async {
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year - 1, now.month, now.day);
+    final pickDate = await showDatePicker(
+        context: context,
+        initialDate: now,
+        firstDate: firstDate,
+        lastDate: now);
+    setState(() {
+      _selectedDate = pickDate;
+    });
+  }
 
   @override
   void dispose() {
@@ -22,7 +37,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           TextField(
@@ -32,13 +47,37 @@ class _NewExpenseState extends State<NewExpense> {
               label: Text("Title"),
             ),
           ),
-          TextField(
-            controller: _amountcontroller,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              prefixText: "\$",
-              label: Text("Amount"),
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountcontroller,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    prefixText: "\$",
+                    label: Text("Amount"),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(_selectedDate == null
+                        ? "No Date Selected"
+                        : formatter.format(_selectedDate!)),
+                    IconButton(
+                        onPressed: () {
+                          _presentDatePicker();
+                        },
+                        icon: const Icon(Icons.calendar_month))
+                  ],
+                ),
+              )
+            ],
           ),
           const Spacer(),
           Row(
@@ -46,12 +85,14 @@ class _NewExpenseState extends State<NewExpense> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  print(_titlecontroller.text);
+                  _submitExpenseData();
                 },
                 child: const Text("Save Expense"),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: const Text("Cancel"),
               ),
             ],
@@ -59,5 +100,28 @@ class _NewExpenseState extends State<NewExpense> {
         ],
       ),
     );
+  }
+
+  void _submitExpenseData() {
+    //convert to number or return null
+    final enteredAmount = double.tryParse(_amountcontroller.text);
+    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+    if (_titlecontroller.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _selectedDate == null) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Invalid Input"),
+          content: Text("Please make sure to select a Valid value"),
+          actions: [
+            TextButton(onPressed: (){
+              Navigator.pop(ctx);
+            }, child: Text("okay"))
+          ],
+        ),
+      );
+      return ;
+    }
   }
 }
