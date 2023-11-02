@@ -9,8 +9,8 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  final _titlecontroller = TextEditingController();
-  final _amountcontroller = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
   DateTime? _selectedDate;
 
   void _presentDatePicker() async {
@@ -28,8 +28,8 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   void dispose() {
-    _titlecontroller.dispose();
-    _amountcontroller.dispose();
+    _titleController.dispose();
+    _amountController.dispose();
     // TODO: implement dispose
     super.dispose();
   }
@@ -41,7 +41,7 @@ class _NewExpenseState extends State<NewExpense> {
       child: Column(
         children: [
           TextField(
-            controller: _titlecontroller,
+            controller: _titleController,
             maxLength: 50,
             decoration: const InputDecoration(
               label: Text("Title"),
@@ -51,7 +51,7 @@ class _NewExpenseState extends State<NewExpense> {
             children: [
               Expanded(
                 child: TextField(
-                  controller: _amountcontroller,
+                  controller: _amountController,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     prefixText: "\$",
@@ -104,20 +104,20 @@ class _NewExpenseState extends State<NewExpense> {
 
   void _submitExpenseData() {
     //convert to number or return null
-    final enteredAmount = double.tryParse(_amountcontroller.text);
+    final enteredAmount = double.tryParse(_amountController.text);
     final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
-    if (_titlecontroller.text.trim().isEmpty ||
+    if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text("Invalid Input"),
-          content: Text("Please make sure to select a Valid value"),
+          title: const Text("Invalid Input"),
+          content: const Text("Please make sure to select a Valid value"),
           actions: [
             TextButton(onPressed: (){
               Navigator.pop(ctx);
-            }, child: Text("okay"))
+            }, child: const Text("okay"))
           ],
         ),
       );
