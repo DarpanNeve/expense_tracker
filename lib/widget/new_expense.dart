@@ -2,16 +2,18 @@ import 'package:expenses/model/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
 
+  final void Function(Expense expense) onAddExpense;
   @override
-  State<NewExpense> createState() => _NewExpenseState();
+  State<NewExpense> createState()=>_NewExpenseState();
 }
 
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+  Category _selectedCategory= Category.leisure;
 
   void _presentDatePicker() async {
     final now = DateTime.now();
@@ -83,6 +85,18 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              DropdownButton(items: Category.values.map((e) =>
+                  DropdownMenuItem(value: e, child: Text(e.name.toUpperCase(),),),)
+                  .toList(),
+                onChanged: (e) {
+                  print(e);
+                  if(e==null){
+                    return ;
+                  }
+                  setState(() {
+                    _selectedCategory=e;
+                  });
+                },),
               ElevatedButton(
                 onPressed: () {
                   _submitExpenseData();
@@ -106,22 +120,29 @@ class _NewExpenseState extends State<NewExpense> {
     //convert to number or return null
     final enteredAmount = double.tryParse(_amountController.text);
     final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
-    if (_titleController.text.trim().isEmpty ||
+    if (_titleController.text
+        .trim()
+        .isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
       showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text("Invalid Input"),
-          content: const Text("Please make sure to select a Valid value"),
-          actions: [
-            TextButton(onPressed: (){
-              Navigator.pop(ctx);
-            }, child: const Text("okay"))
-          ],
-        ),
+        builder: (ctx) =>
+            AlertDialog(
+              title: const Text("Invalid Input"),
+              content: const Text("Please make sure to select a Valid value"),
+              actions: [
+                TextButton(onPressed: () {
+                  Navigator.pop(ctx);
+                }, child: const Text("okay"))
+              ],
+            ),
       );
-      return ;
+      return;
     }
+    widget.onAddExpense(Expense(category: _selectedCategory,
+        title: _titleController.text,
+        amount: enteredAmount,
+        date: _selectedDate!),);
   }
 }

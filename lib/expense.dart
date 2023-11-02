@@ -40,7 +40,7 @@ class _ExpensesState extends State<Expenses> {
       () {
         _registeredExpenses.add(expense);
       },
-    );
+      );
   }
 
   @override
@@ -52,7 +52,7 @@ class _ExpensesState extends State<Expenses> {
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
-                  builder: (ctx) => const NewExpense(),
+                  builder: (ctx) => NewExpense(onAddExpense: _addExpense),
                   showDragHandle: true,
                   useSafeArea: true,
                   clipBehavior: Clip.hardEdge,
