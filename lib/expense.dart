@@ -43,6 +43,11 @@ class _ExpensesState extends State<Expenses> {
       },
       );
   }
+  void _removeExpenses(Expense expense){
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +57,7 @@ class _ExpensesState extends State<Expenses> {
           IconButton(
               onPressed: () {
                 showModalBottomSheet(
+                  isScrollControlled: true,
                   context: context,
                   builder: (ctx) => NewExpense(onAddExpense: _addExpense),
                   showDragHandle: true,
@@ -65,7 +71,7 @@ class _ExpensesState extends State<Expenses> {
         leading: null,
       ),
       body: ExpenseList(
-        expenses: _registeredExpenses,
+        expenses: _registeredExpenses, onRemovedExpense: _removeExpenses,
       ),
     );
   }
