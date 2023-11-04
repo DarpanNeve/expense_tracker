@@ -18,13 +18,13 @@ class _NewExpenseState extends State<NewExpense> {
   void _presentDatePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 1, now.month, now.day);
-    final pickDate = await showDatePicker(
+    final DateTime? pickDate = await showDatePicker(
         context: context,
         initialDate: now,
         firstDate: firstDate,
         lastDate: now);
     setState(() {
-      _selectedDate = pickDate;
+      _selectedDate = pickDate  ;
     });
   }
 
@@ -100,6 +100,7 @@ class _NewExpenseState extends State<NewExpense> {
               ElevatedButton(
                 onPressed: () {
                   _submitExpenseData();
+                  Navigator.pop(context);
                 },
                 child: const Text("Save Expense"),
               ),

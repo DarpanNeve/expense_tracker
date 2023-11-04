@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../model/expense.dart';
 
@@ -21,13 +22,13 @@ class ExpenseList extends StatelessWidget {
                   Text(expenses[index].title),
                   Row(
                     children: [
-                      Text(expenses[index].amount.toString()),
+                      Text("Rs. ${expenses[index].amount.toString()}"),
                       const Spacer(),
                       Row(
                         children: [
                           Icon(categoryIcons[expenses[index].category]),
                           const SizedBox(width: 8),
-                          Text(expenses[index].date.toString()),
+                          Text(DateFormat('dd-MM-yyyy').format(expenses[index].date)),
                         ],
                       )
 

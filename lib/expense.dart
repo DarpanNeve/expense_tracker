@@ -1,6 +1,7 @@
 import 'package:expenses/widget/expenses_list/expense_list.dart';
 import 'package:expenses/widget/new_expense.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'model/expense.dart';
 
@@ -16,7 +17,7 @@ class _ExpensesState extends State<Expenses> {
     Expense(
         title: 'Flutter',
         amount: 30,
-        date: DateTime.now(),
+        date:DateTime.now(),
         category: Category.food),
     Expense(
         title: 'Flutter',
