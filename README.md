@@ -1,16 +1,10 @@
 # expense_tracker
 
-A new Flutter project created for Practicing Udemy Course.
+A new Flutter project created for Practicing Udemy Course for managing my personal Expenses.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is Demo Application created to manage my personal Expenses using firebase containing basic elements
+and will include charts for the every month expense manage.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Thank You
