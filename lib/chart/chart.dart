@@ -57,7 +57,6 @@ class Chart extends StatelessWidget {
         children: [
           Expanded(
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 for (final bucket in buckets) // alternative to map()
                   ChartBar(

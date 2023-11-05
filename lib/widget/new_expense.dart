@@ -40,92 +40,104 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              maxLength: 50,
-              decoration: const InputDecoration(
-                label: Text("Title"),
-              ),
-            ),
-            Row(
+      child: SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: _amountController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      prefixText: "Rs.",
-                      label: Text("Amount"),
-                    ),
+                TextField(
+                  controller: _titleController,
+                  maxLength: 50,
+                  decoration: const InputDecoration(
+                    label: Text("Title"),
                   ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _amountController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          prefixText: "Rs.",
+                          label: Text("Amount"),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              _presentDatePicker();
+                            },
+                            child: Text(
+                              _selectedDate == null
+                                  ? "No Date Selected"
+                                  : formatter.format(_selectedDate!),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                _presentDatePicker();
+                              },
+                              icon: const Icon(Icons.calendar_month))
+                        ],
+                      ),
+                    )
+                  ],
                 ),
                 const SizedBox(
-                  width: 16,
+                  height: 20,
                 ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(_selectedDate == null
-                          ? "No Date Selected"
-                          : formatter.format(_selectedDate!)),
-                      IconButton(
-                          onPressed: () {
-                            _presentDatePicker();
-                          },
-                          icon: const Icon(Icons.calendar_month))
-                    ],
+                SizedBox(
+                  width: double.infinity,
+                  child: DropdownButton(
+                    isExpanded: true,
+                    items: Category.values
+                        .map((e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(
+                              e.name,
+                            )))
+                        .toList(),
+                    value: _selectedCategory,
+                    onChanged: (e) {
+                      if (e == null) {
+                        return;
+                      }
+                      setState(() {
+                        _selectedCategory = e;
+                      });
+                    },
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _submitExpenseData();
+                      },
+                      child: const Text("Save Expense"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Cancel"),
+                    ),
+                  ],
                 )
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: DropdownButton(
-                isExpanded: true,
-                items: Category.values
-                    .map((e) => DropdownMenuItem(
-                    value: e,
-                    child: Text(
-                      e.name,
-                    )))
-                    .toList(),
-                value: _selectedCategory,
-                onChanged: (e) {
-                  if (e == null) {
-                    return;
-                  }
-                  setState(() {
-                    _selectedCategory = e;
-                  });
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _submitExpenseData();
-                  },
-                  child: const Text("Save Expense"),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Cancel"),
-                ),
-              ],
-            )
-          ],
+          ),
         ),
       ),
     );
